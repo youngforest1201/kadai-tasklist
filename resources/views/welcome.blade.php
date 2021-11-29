@@ -15,7 +15,9 @@
                 </div>
             </aside>
             <div class="col-sm-8">
-                {{-- 投稿一覧 --}}
+                 {{-- タスクフォーム --}}
+                @include('tasks.form')
+                {{-- タスク一覧 --}}
                 @include('tasks.tasks')
             </div>
         </div>

@@ -82,12 +82,15 @@ class TasksController extends Controller
     {
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
-        print $id;
-    
+
         // メッセージ詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
-       ]);
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.show', [
+                'task' => $task,
+           ]);
+        }
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     /**

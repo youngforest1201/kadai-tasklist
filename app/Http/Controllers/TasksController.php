@@ -82,7 +82,8 @@ class TasksController extends Controller
     {
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
-
+        print $id;
+    
         // メッセージ詳細ビューでそれを表示
         return view('tasks.show', [
             'task' => $task,
@@ -101,9 +102,16 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
 
         // メッセージ編集ビューでそれを表示
+        // メッセージを更新
+        if (\Auth::id() === $task->user_id) {
         return view('tasks.edit', [
             'task' => $task,
-        ]);    }
+        ]); 
+        }
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    }
+        
 
     /**
      * Update the specified resource in storage.
@@ -124,10 +132,13 @@ class TasksController extends Controller
         // idの値でメッセージを検索して取得
         $task = Task::findOrFail($id);
         // メッセージを更新
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
-
+        if (\Auth::id() === $task->user_id) {
+            print_r($id);
+            $task->status = $request->status;
+            $task->content = $request->content;
+            $task->save();
+        }
+        
         // トップページへリダイレクトさせる
         return redirect('/');
     }
@@ -144,10 +155,10 @@ class TasksController extends Controller
 
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
         if (\Auth::id() === $task->user_id) {
+            print_r($id);
             $task->delete();
         }
-
         // 前のURLへリダイレクトさせる
-        return back();
+        return redirect('/');
     }
 }

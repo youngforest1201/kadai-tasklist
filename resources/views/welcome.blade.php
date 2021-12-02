@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-8">
                  {{-- タスクフォーム --}}
-                @include('tasks.form')
+                @include('tasks.index')
                 {{-- タスク一覧 --}}
                 @include('tasks.tasks')
             </div>
